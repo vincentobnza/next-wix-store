@@ -9,19 +9,45 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.76.2",
+    "@wix/ecom": "^1.0.1166",
+    "@wix/media": "^1.0.164",
+    "@wix/members": "^1.0.293",
+    "@wix/redirects": "^1.0.79",
+    "@wix/reviews": "^1.0.86",
+    "@wix/sdk": "^1.15.22",
+    "@wix/stores": "^1.0.451",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "js-cookie": "^3.0.5",
+    "ky": "^1.8.1",
+    "lucide-react": "^0.511.0",
+    "next": "15.1.8",
+    "next-themes": "^0.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.8"
+    "react-medium-image-zoom": "^5.2.14",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.25.22"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tanstack/eslint-plugin-query": "^5.74.7",
+    "@tanstack/react-query-devtools": "^5.76.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-prettier": "^10.1.5",
+    "postcss": "^8",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwind-css": "^1.5.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
