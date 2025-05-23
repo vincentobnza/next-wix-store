@@ -1,3 +1,5 @@
+"use client";
+
 import { useFont } from "@/context/FontContext";
 import * as React from "react";
 import { cn } from "@/lib/utils";
@@ -13,7 +15,13 @@ export const Heading = ({
 }) => {
   const { stylishFont } = useFont();
   return (
-    <Component className={cn(stylishFont, "text-3xl font-bold", className)}>
+    <Component
+      className={cn(
+        stylishFont,
+        "text-4xl font-medium leading-snug",
+        className,
+      )}
+    >
       {children}
     </Component>
   );
@@ -30,7 +38,7 @@ export const SubHeading = ({
 }) => {
   const { outfitFont } = useFont();
   return (
-    <Component className={cn(outfitFont, "text-xl font-semibold", className)}>
+    <Component className={cn(outfitFont, "text-lg", className)}>
       {children}
     </Component>
   );
