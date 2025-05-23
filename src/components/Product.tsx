@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { products } from "@wix/stores";
 import Link from "next/link";
+import { Text } from "./typography/typography";
 import { WixImage } from "./WixImage";
 import { formatCurrency } from "@/lib/utils";
 
@@ -11,7 +12,7 @@ type ProductProps = {
 export default function Product({ product }: ProductProps) {
   const mainImage = product.media?.mainMedia?.image;
   return (
-    <Link href={`/products/${product.slug}`} className="w-full group">
+    <Link href={`/products/${product.slug}`} className="w-full group bg-white">
       <div className="relative overflow-hidden">
         <WixImage
           width={700}
@@ -21,11 +22,13 @@ export default function Product({ product }: ProductProps) {
           className="group-hover:scale-110 transition-transform duration-300 ease-in-out"
         />
       </div>
-      <div className="space-y-3 py-5">
-        <p className="hover:underline">{product.name}</p>
-        <h3 className="text-sm md:text-xl font-bold">
-          {getFormattedPrice(product)}
-        </h3>
+      <div className="w-full flex items-center justify-between">
+        <div className="space-y-1 py-5">
+          <Text className="text-xs group-hover:underline">{product.name}</Text>
+          <h3 className="text-sm md:text-xl font-bold">
+            {getFormattedPrice(product)}
+          </h3>
+        </div>
       </div>
     </Link>
   );

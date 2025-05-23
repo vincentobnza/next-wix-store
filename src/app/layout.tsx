@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { FontProvider } from "@/context/FontContext";
+import { Outfit } from "next/font/google";
 import Navbar from "./Navbar";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -19,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
+      <body className={`${outfit.className}  antialiased`}>
         <FontProvider>
           <Navbar />
           <main>{children}</main>

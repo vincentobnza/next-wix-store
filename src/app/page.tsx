@@ -84,12 +84,10 @@ function LoadingSkeleton() {
       <div className="mt-8 grid grid-cols-2 sm:grid gap-3 md:gap-5 md:grid-cols-3 lg:grid-cols-4">
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className="flex flex-col space-y-4">
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-6 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-            <div className="flex items-center gap-2 mt-2">
-              <Skeleton className="h-8 w-20" />
-              <Skeleton className="h-8 w-8" />
+            <Skeleton className="h-60 w-full" />
+            <div className="w-full space-y-2">
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-8 w-3/4" />
             </div>
           </div>
         ))}
