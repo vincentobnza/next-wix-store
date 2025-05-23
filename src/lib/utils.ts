@@ -11,9 +11,9 @@ export async function delay(ms: number) {
 
 export function formatCurrency(
   price: number | string = 0,
-  currency: string = "PHP",
+  currency: string = "USD",
 ) {
-  return Intl.NumberFormat("en-PH", {
+  return Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currency,
     minimumFractionDigits: 2,

@@ -37,7 +37,7 @@ export default function Product({ product }: ProductProps) {
 function getFormattedPrice(product: products.Product) {
   const MIN_PRICE = product.priceRange?.minValue;
   const MAX_PRICE = product.priceRange?.maxValue;
-  const CURRENCY = product.priceData?.currency ?? "PHP";
+  const CURRENCY = "USD";
 
   if (MIN_PRICE && MAX_PRICE && MIN_PRICE !== MAX_PRICE) {
     return `from ${formatCurrency(MIN_PRICE, CURRENCY)}`;

@@ -8,7 +8,7 @@ import { Suspense } from "react";
 import Product from "@/components/Product";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getCollectionsBySlug } from "@/wix-api/collections";
-import { QueryProducts } from "@/wix-api/products";
+import { queryProducts } from "@/wix-api/products";
 
 export default function Home() {
   return (
@@ -57,7 +57,7 @@ async function FeaturedProducts() {
     return null;
   }
 
-  const featuredProducts = await QueryProducts({
+  const featuredProducts = await queryProducts({
     collectionIds:
       typeof collection._id === "string" ? collection._id : undefined,
   });
