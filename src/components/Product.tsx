@@ -4,6 +4,13 @@ import Link from "next/link";
 import { Text } from "./typography/typography";
 import { WixImage } from "./WixImage";
 import { formatCurrency } from "@/lib/utils";
+import { Plus } from "lucide-react";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipContent,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 type ProductProps = {
   product: products.Product;
@@ -21,10 +28,12 @@ export default function Product({ product }: ProductProps) {
           alt={mainImage?.altText}
           className="group-hover:scale-110 transition-transform duration-300 ease-in-out"
         />
+
+        <AddToCart />
       </div>
       <div className="w-full flex items-center justify-between">
         <div className="space-y-1 py-5">
-          <Text className="text-sm group-hover:underline line-clamp-1">
+          <Text className="text-sm group-hover:underline line-clamp-1 uppercase">
             {product.name}
           </Text>
           <h3 className="text-sm md:text-xl font-bold">
@@ -48,4 +57,21 @@ function getFormattedPrice(product: products.Product) {
       product.priceData?.discountedPrice || product.priceData?.price;
     return price ? formatCurrency(price, CURRENCY) : "N/A";
   }
+}
+
+function AddToCart() {
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="absolute grid place-items-center bottom-2 left-1/2 transform -translate-x-1/2 rounded-full bg-white/20 z-10 size-8">
+            <Plus className="text-zinc-900 size-5" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Add to Cart</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }

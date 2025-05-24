@@ -49,7 +49,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
       <div className="basis-3/5 space-y-5">
         <div className="space-y-3">
-          <h1 className="text-2xl md:text-3xl">{product.name}</h1>
+          <h1 className="text-2xl md:text-3xl uppercase">{product.name}</h1>
           <div className="text-md text-zinc-700 pb-5 border-b border-zinc-100">
             Brand: {""}
             {product.brand ? product.brand : "No brand available"}
