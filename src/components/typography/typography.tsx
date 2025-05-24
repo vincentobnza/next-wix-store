@@ -36,12 +36,7 @@ export const SubHeading = ({
   className?: string;
   as?: keyof React.JSX.IntrinsicElements | React.JSXElementConstructor<unknown>;
 }) => {
-  const { outfitFont } = useFont();
-  return (
-    <Component className={cn(outfitFont, "text-lg", className)}>
-      {children}
-    </Component>
-  );
+  return <Component className={cn("text-lg", className)}>{children}</Component>;
 };
 
 export const Text = ({
@@ -53,10 +48,7 @@ export const Text = ({
   className?: string;
   as?: keyof React.JSX.IntrinsicElements | React.JSXElementConstructor<unknown>;
 }) => {
-  const { outfitFont } = useFont();
   return (
-    <Component className={cn(outfitFont, "text-base", className)}>
-      {children}
-    </Component>
+    <Component className={cn("text-base", className)}>{children}</Component>
   );
 };

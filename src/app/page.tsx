@@ -49,8 +49,6 @@ export default function Home() {
 }
 
 async function FeaturedProducts() {
-  await delay(1000);
-
   const collection = await getCollectionsBySlug("featured-products");
 
   if (!collection) {
@@ -68,7 +66,7 @@ async function FeaturedProducts() {
   return (
     <div className="w-full">
       <SubHeading>Featured Products</SubHeading>
-      <div className="mt-8 grid grid-cols-2 sm:grid gap-3 md:gap-5 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 sm:grid gap-3 md:gap-5 md:grid-cols-3 lg:grid-cols-5">
         {featuredProducts.items.map((product) => (
           <Product key={product._id} product={product} />
         ))}
@@ -81,7 +79,7 @@ function LoadingSkeleton() {
   return (
     <div className="w-full">
       <SubHeading>Featured Products</SubHeading>
-      <div className="mt-8 grid grid-cols-2 sm:grid gap-3 md:gap-5 md:grid-cols-3 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 sm:grid gap-3 md:gap-5 md:grid-cols-3 lg:grid-cols-5">
         {Array.from({ length: 8 }).map((_, index) => (
           <div key={index} className="flex flex-col space-y-4">
             <Skeleton className="h-60 w-full" />

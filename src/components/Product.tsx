@@ -24,7 +24,9 @@ export default function Product({ product }: ProductProps) {
       </div>
       <div className="w-full flex items-center justify-between">
         <div className="space-y-1 py-5">
-          <Text className="text-xs group-hover:underline">{product.name}</Text>
+          <Text className="text-sm group-hover:underline line-clamp-1">
+            {product.name}
+          </Text>
           <h3 className="text-sm md:text-xl font-bold">
             {getFormattedPrice(product)}
           </h3>
