@@ -3,7 +3,6 @@ import Image from "next/image";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { delay } from "@/lib/utils";
 import { Suspense } from "react";
 import Product from "@/components/Product";
 import { Skeleton } from "@/components/ui/skeleton";

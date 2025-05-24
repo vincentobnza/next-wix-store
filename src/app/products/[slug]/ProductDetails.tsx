@@ -11,7 +11,7 @@ type ProductDetailsProps = {
 };
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [quantity, setQuantity] = useState(1);
+  // const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
   >(
@@ -39,25 +39,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           alt={product.media?.mainMedia?.image?.altText}
           width={1000}
           height={1000}
-          className="sticky top-0 "
+          className="sticky top-0"
         />
       </div>
 
       <div className="basis-3/5 space-y-5">
         <div className="space-y-3">
           <h1 className="text-2xl md:text-3xl">{product.name}</h1>
-
-          <div className="text-md text-zinc-700">
+          <div className="text-md text-zinc-700 pb-5 border-b border-zinc-100">
             Brand: {""}
             {product.brand ? product.brand : "No brand available"}
           </div>
-          {/* 
-          {product.description && (
-            <div
-              dangerouslySetInnerHTML={{ __html: product.description }}
-              className="text-sm"
-            />
-          )} */}
 
           <ProductPrice product={product} selectedVariant={selectedVariant} />
           <ProductOptions

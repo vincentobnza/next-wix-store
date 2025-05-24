@@ -7,9 +7,12 @@ export default function Loading() {
         <div className="basis-2/5">
           <Skeleton className="aspect-square w-full" />
         </div>
-
-        <div className="basis-3/5 flex grow">
-          <Skeleton className="h-full w-full" />
+        <div className="basis-3/5 space-y-4">
+          <Skeleton className="h-16 w-full" />
+          <Skeleton className="h-10 w-1/2" />
+          <Skeleton className="h-12 w-3/4" />
+          <Skeleton className="h-16 w-1/4" />
+          <Skeleton className="h-16 w-1/2" />
         </div>
       </div>
     </main>

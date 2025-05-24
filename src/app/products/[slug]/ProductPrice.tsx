@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { products } from "@wix/stores";
 
 type ProductPriceProps = {
@@ -16,22 +15,20 @@ export default function ProductPrice({
   const hasDiscount = priceData?.discountedPrice !== priceData?.price;
 
   return (
-    <div className="border-zinc-500 w-full py-5 flex items-center gap-2">
+    <div className="border-zinc-500 w-full py-4 flex items-center gap-2">
+      <span className="text-3xl font-bold text-zinc-900 ">
+        {hasDiscount
+          ? priceData?.formatted?.discountedPrice
+          : priceData?.formatted?.price}
+      </span>
       {hasDiscount && (
-        <span className="text-3xl font-bold text-rose-500 ">
-          {priceData.formatted?.discountedPrice}
+        <span className="line-through text-zinc-400 text-sm mt-1 ml-2">
+          {priceData.formatted?.price}
         </span>
       )}
-      <span
-        className={cn(
-          hasDiscount && "line-through text-zinc-400 text-sm mt-1 ml-2",
-        )}
-      >
-        {priceData.formatted?.price}
-      </span>
 
-      {product.discount && (
-        <span className="mt-1 bg-red-50 text-red-500 px-2 font-bold text-sm">
+      {hasDiscount && product.discount && (
+        <span className="mt-1 bg-zinc-100 text-zinc-800 px-2 font-bold text-sm">
           -{product.discount.value}%
         </span>
       )}

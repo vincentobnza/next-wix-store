@@ -50,7 +50,7 @@ export default function ProductOptions({
                 <Label
                   htmlFor={choice.description}
                   className={cn(
-                    "flex items-center justify-center min-w-14 gap-1.5 border-2 rounded-md border-zinc-200 cursor-pointer p-2 peer-checked:border-rose-400",
+                    "flex items-center justify-center min-w-14 gap-1.5 border-2 border-zinc-200 cursor-pointer p-2 peer-checked:border-zinc-900",
                     !checkInStock(product, {
                       ...selectedOptions,
                       [option.name || ""]: choice.description || "",
