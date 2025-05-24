@@ -12,7 +12,7 @@ import { queryProducts } from "@/wix-api/products";
 export default function Home() {
   return (
     <main className="mx-auto w-full max-w-screen-xl space-y-12 px-5 py-10">
-      <div className="flex items-center md:h-96 bg-zinc-200">
+      <div className="flex items-center md:h-96 bg-zinc-50">
         <div className="flex flex-col gap-5 p-10 text-center md:text-left md:w-1/2">
           <Heading>Your Everyday Style, Reinvented</Heading>
           <SubHeading className="mb-10">
@@ -36,7 +36,7 @@ export default function Home() {
             className="h-full object-cover"
           />
           {/* OVERLAY */}
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-200 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-50 via-transparent to-transparent"></div>
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import "./globals.css";
 import { FontProvider } from "@/context/FontContext";
 import Navbar from "./Navbar";
 import { Quicksand } from "next/font/google";
+import Footer from "./Footer";
 
 const quick_sand = Quicksand({
   subsets: ["latin"],
@@ -31,6 +32,8 @@ export default function RootLayout({
         <FontProvider>
           <Navbar />
           <main>{children}</main>
+
+          <Footer />
         </FontProvider>
       </body>
     </html>
