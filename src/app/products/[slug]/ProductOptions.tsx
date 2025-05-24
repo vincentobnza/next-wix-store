@@ -29,46 +29,52 @@ export default function ProductOptions({
           </legend>
 
           <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            {option.choices?.map((choice) => (
-              <div key={choice.description}>
-                <input
-                  type="radio"
-                  id={choice.description}
-                  name={option.name}
-                  value={choice.description}
-                  checked={
-                    selectedOptions[option.name || ""] === choice.description
-                  }
-                  onChange={() =>
-                    setSelectedOptions({
-                      ...selectedOptions,
-                      [option.name || ""]: choice.description || "",
-                    })
-                  }
-                  className="peer hidden"
-                />
-                <Label
-                  htmlFor={choice.description}
-                  className={cn(
-                    "flex items-center justify-center min-w-14 gap-1.5 border-2 border-zinc-200 cursor-pointer p-2 peer-checked:border-zinc-900",
-                    !checkInStock(product, {
-                      ...selectedOptions,
-                      [option.name || ""]: choice.description || "",
-                    }) && "opacity-50 cursor-not-allowed",
-                  )}
-                >
-                  {option.optionType === products.OptionType.color && (
-                    <span
-                      className="size-3.5 rounded-full border"
-                      style={{
-                        backgroundColor: choice.value,
-                      }}
-                    />
-                  )}
-                  <span> {choice.description}</span>
-                </Label>
-              </div>
-            ))}
+            {option.choices?.map((choice) => {
+              const isInStock = checkInStock(product, {
+                ...selectedOptions,
+                [option.name || ""]: choice.description || "",
+              });
+
+              return (
+                <div key={choice.description}>
+                  <input
+                    type="radio"
+                    id={choice.description}
+                    name={option.name}
+                    value={choice.description}
+                    checked={
+                      selectedOptions[option.name || ""] === choice.description
+                    }
+                    onChange={() =>
+                      isInStock &&
+                      setSelectedOptions({
+                        ...selectedOptions,
+                        [option.name || ""]: choice.description || "",
+                      })
+                    }
+                    disabled={!isInStock}
+                    className="peer hidden"
+                  />
+                  <Label
+                    htmlFor={choice.description}
+                    className={cn(
+                      "flex items-center justify-center min-w-14 gap-1.5 border border-zinc-200 cursor-pointer p-2 peer-checked:border-zinc-900",
+                      !isInStock && "opacity-50 cursor-not-allowed",
+                    )}
+                  >
+                    {option.optionType === products.OptionType.color && (
+                      <span
+                        className="size-3.5 rounded-full border"
+                        style={{
+                          backgroundColor: choice.value,
+                        }}
+                      />
+                    )}
+                    <span> {choice.description}</span>
+                  </Label>
+                </div>
+              );
+            })}
           </div>
         </fieldset>
       ))}
