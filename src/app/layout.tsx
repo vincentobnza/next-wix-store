@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { FontProvider } from "@/context/FontContext";
 import Navbar from "./Navbar";
-import { Outfit } from "next/font/google";
+import { Quicksand } from "next/font/google";
 
-const outfit = Outfit({
+const quick_sand = Quicksand({
   subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased ${outfit.className}`}>
+      <body className={`antialiased ${quick_sand.className}`}>
         <FontProvider>
           <Navbar />
           <main>{children}</main>
