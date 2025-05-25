@@ -1,19 +1,20 @@
 "use client";
-import { WixImage } from "@/components/WixImage";
 import { products } from "@wix/stores";
 import ProductOptions from "./ProductOptions";
 import { useState } from "react";
 import { checkInStock, findVariant } from "@/lib/utils";
 import ProductPrice from "./ProductPrice";
-import { Lens } from "@/components/ui/lens";
+import ProductMedia from "./ProductMedia";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { InfoIcon } from "lucide-react";
 
 type ProductDetailsProps = {
   product: products.Product;
 };
 
 export default function ProductDetails({ product }: ProductDetailsProps) {
-  const [hovering, setHovering] = useState(false);
-  // const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string>
   >(
@@ -31,20 +32,18 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   );
 
   const selectedVariant = findVariant(product, selectedOptions);
-  // const inStock = checkInStock(product, selectedOptions);
+  const inStock = checkInStock(product, selectedOptions);
+
+  const availableQuantity =
+    selectedVariant?.stock?.quantity ?? product.stock?.quantity;
+
+  const availableQuantityExceeds =
+    !!availableQuantity && quantity > availableQuantity;
 
   return (
     <div className="flex flex-col gap-10 md:flex-row lg:gap-20">
       <div className="basis-2/5 relative">
-        <Lens hovering={hovering} setHovering={setHovering}>
-          <WixImage
-            mediaIdentifier={product.media?.mainMedia?.image?.url}
-            alt={product.media?.mainMedia?.image?.altText}
-            width={1000}
-            height={1000}
-            className="sticky top-0"
-          />
-        </Lens>
+        <ProductMedia media={product.media?.items} />
       </div>
 
       <div className="basis-3/5 space-y-5">
@@ -61,6 +60,33 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             selectedOptions={selectedOptions}
             setSelectedOptions={setSelectedOptions}
           />
+
+          <div className="space-y-2">
+            <Label htmlFor="quantity" className="text-sm">
+              Quantity
+            </Label>
+
+            <div className="flex items-center gap-5">
+              <Input
+                name="quantity"
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                min={1}
+                max={availableQuantity || 999}
+                className="w-16"
+                disabled={!inStock}
+              />
+
+              {!!availableQuantity &&
+                (availableQuantityExceeds || availableQuantity < 10) && (
+                  <span className="text-rose-600 text-xs font-semibold flex items-center gap-1">
+                    <InfoIcon className="inline mr-1 size-3" />
+                    Only {availableQuantity} left in stock
+                  </span>
+                )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
