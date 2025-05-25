@@ -2,7 +2,7 @@ import { Lens } from "@/components/ui/lens";
 import { WixImage } from "@/components/WixImage";
 import { cn } from "@/lib/utils";
 import { products } from "@wix/stores";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Play } from "lucide-react";
 
 type ProductMediaProps = {
@@ -12,6 +12,10 @@ type ProductMediaProps = {
 export default function ProductMedia({ media }: ProductMediaProps) {
   const [hovering, setHovering] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState(media?.[0]);
+
+  useEffect(() => {
+    setSelectedMedia(media?.[0]);
+  }, [media]);
 
   if (!media?.length) return null;
 

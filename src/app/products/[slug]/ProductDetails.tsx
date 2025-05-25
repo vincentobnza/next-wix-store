@@ -8,6 +8,13 @@ import ProductMedia from "./ProductMedia";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { InfoIcon } from "lucide-react";
+import { Accordion } from "@/components/ui/accordion";
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import AddToCartButton from "@/components/AddtoCartButton";
 
 type ProductDetailsProps = {
   product: products.Product;
@@ -40,10 +47,24 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const availableQuantityExceeds =
     !!availableQuantity && quantity > availableQuantity;
 
+  const selectedOptionsMedia = product.productOptions?.flatMap((option) => {
+    const selectedChoice = option.choices?.find(
+      (choice) => choice.description === selectedOptions[option.name || ""],
+    );
+
+    return selectedChoice?.media?.items ?? [];
+  });
+
   return (
     <div className="flex flex-col gap-10 md:flex-row lg:gap-20">
       <div className="basis-2/5 relative">
-        <ProductMedia media={product.media?.items} />
+        <ProductMedia
+          media={
+            !!selectedOptionsMedia?.length
+              ? selectedOptionsMedia
+              : product.media?.items
+          }
+        />
       </div>
 
       <div className="basis-3/5 space-y-5">
@@ -74,7 +95,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 min={1}
                 max={availableQuantity || 999}
-                className="w-16"
+                className="w-16 font-bold"
                 disabled={!inStock}
               />
 
@@ -86,7 +107,46 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   </span>
                 )}
             </div>
+
+            {inStock ? (
+              <AddToCartButton
+                product={product}
+                selectedOptions={selectedOptions}
+                quantity={quantity}
+              />
+            ) : (
+              "Out OfStock"
+            )}
           </div>
+
+          {!!product.additionalInfoSections?.length && (
+            <div className="w-full space-y-6 text-md">
+              <span className="flex pt-8 items-center gap-2 mb-5">
+                <InfoIcon className="inline mr-1 size-4" />
+                Additional Information
+              </span>
+
+              <Accordion type="multiple" className="w-full space-y-4">
+                {product.additionalInfoSections.map((section) => (
+                  <AccordionItem
+                    value={section.title || ""}
+                    key={section.title}
+                  >
+                    <AccordionTrigger>{section.title}</AccordionTrigger>
+
+                    <AccordionContent>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: section.description || "",
+                        }}
+                        className="prose text-sm text-zinc-700"
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          )}
         </div>
       </div>
     </div>
