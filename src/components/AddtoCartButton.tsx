@@ -1,5 +1,4 @@
 import { products } from "@wix/stores";
-
 import { Button, ButtonProps } from "./ui/button";
 import { addToCart } from "@/wix-api/cart";
 
@@ -15,17 +14,15 @@ export default function AddToCartButton({
   quantity,
   ...props
 }: AddToCartButtonProps) {
+  const handleAddToCart = async () => {
+    await addToCart({
+      product,
+      selectedOptions,
+      quantity,
+    });
+  };
   return (
-    <Button
-      onClick={() => {
-        addToCart({
-          product,
-          selectedOptions,
-          quantity,
-        });
-      }}
-      {...props}
-    >
+    <Button onClick={handleAddToCart} {...props}>
       Add to Cart
     </Button>
   );

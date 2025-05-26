@@ -36,7 +36,7 @@ export async function addToCart({
   selectedOptions,
   quantity,
 }: AddToCartValues) {
-  const wixClient = getWixClient();
+  const wixClient = await getWixClient();
 
   const selectedVariant = findVariant(product, selectedOptions);
 

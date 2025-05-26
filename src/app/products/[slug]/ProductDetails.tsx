@@ -14,7 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import AddToCartButton from "@/components/AddtoCartButton";
+// import AddToCartButton from "@/components/AddtoCartButton";
 
 type ProductDetailsProps = {
   product: products.Product;
@@ -108,15 +108,17 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 )}
             </div>
 
-            {inStock ? (
+            {/* {inStock ? (
               <AddToCartButton
                 product={product}
                 selectedOptions={selectedOptions}
                 quantity={quantity}
               />
             ) : (
-              "Out OfStock"
-            )}
+              <div className="text-rose-600 font-semibold py-2">
+                Out of Stock
+              </div>
+            )} */}
           </div>
 
           {!!product.additionalInfoSections?.length && (
