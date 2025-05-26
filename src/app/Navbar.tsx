@@ -1,10 +1,12 @@
 import Link from "next/link";
-// import { getCart } from "@/wix-api/cart";
+import { getCart } from "@/wix-api/cart";
+import { getWixServerClient } from "@/lib/wix-client-server";
 
 export default async function Navbar() {
-  // const cart = await getCart();
-  // const totalQuantity =
-  //   cart?.lineItems?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
+  const wixClient = getWixServerClient();
+  const cart = await getCart(await wixClient);
+  const totalQuantity =
+    cart?.lineItems?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
   return (
     <header className="sticky top-0 left-0 w-full bg-white border-b border-zinc-200 p-5 z-50">
       <div className="w-full max-w-screen-xl mx-auto flex justify-between items-center px-5">
@@ -12,7 +14,6 @@ export default async function Navbar() {
           <Link href="/" className="text-md font-bold">
             TRENDORA
           </Link>
-
           <ul className="flex space-x-6 ">
             <li>
               <Link
@@ -40,6 +41,7 @@ export default async function Navbar() {
             </li>
           </ul>
         </div>
+        {totalQuantity} items in your cart
       </div>
     </header>
   );

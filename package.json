@@ -16,6 +16,7 @@
     "@radix-ui/react-navigation-menu": "^1.2.13",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@t3-oss/env-nextjs": "^0.13.4",
     "@tanstack/react-query": "^5.76.2",
     "@wix/ecom": "^1.0.1166",
     "@wix/media": "^1.0.164",

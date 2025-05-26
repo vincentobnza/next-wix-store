@@ -3,18 +3,27 @@ import { getProductsBySlug } from "@/wix-api/products";
 import ProductDetails from "./ProductDetails";
 import { Metadata } from "next";
 import { delay } from "@/lib/utils";
+import { getWixServerClient } from "@/lib/wix-client-server";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({
-  params: { slug },
+  params,
 }: PageProps): Promise<Metadata> {
-  const product = await getProductsBySlug(slug);
-  if (!product) <NotFound />;
+  const { slug } = await params;
+  const wixClient = await getWixServerClient();
+  const product = await getProductsBySlug(wixClient, slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The requested product could not be found.",
+    };
+  }
 
   const mainImage = product?.media?.mainMedia?.image;
 
@@ -36,12 +45,16 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params: { slug } }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params;
   await delay(5000);
-  const product = await getProductsBySlug(slug);
+  const wixClient = await getWixServerClient();
+  const product = await getProductsBySlug(wixClient, slug);
+
   if (!product?._id) {
     return <NotFound />;
   }
+
   return (
     <main className="mx-auto w-full max-w-screen-xl space-y-12 px-5 py-10">
       <ProductDetails product={product} />

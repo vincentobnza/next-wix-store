@@ -1,6 +1,7 @@
 import { products } from "@wix/stores";
 import { Button, ButtonProps } from "./ui/button";
 import { addToCart } from "@/wix-api/cart";
+import { wixClientBrowser } from "@/lib/wix-client-browser";
 
 type AddToCartButtonProps = ButtonProps & {
   product: products.Product;
@@ -15,7 +16,7 @@ export default function AddToCartButton({
   ...props
 }: AddToCartButtonProps) {
   const handleAddToCart = async () => {
-    await addToCart({
+    await addToCart(wixClientBrowser, {
       product,
       selectedOptions,
       quantity,

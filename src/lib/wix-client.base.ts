@@ -1,4 +1,4 @@
-import { createClient, OAuthStrategy } from "@wix/sdk";
+import { createClient, OAuthStrategy, Tokens } from "@wix/sdk";
 import { env } from "./env";
 import { products, collections } from "@wix/stores";
 import { files } from "@wix/media";
@@ -13,7 +13,7 @@ import {
   recommendations,
 } from "@wix/ecom";
 
-export function getWixClient() {
+export function getWixClient(tokens: Tokens | undefined) {
   return createClient({
     modules: {
       products,
@@ -30,6 +30,9 @@ export function getWixClient() {
     },
     auth: OAuthStrategy({
       clientId: env.NEXT_PUBLIC_WIX_CLIENT_ID,
+      tokens,
     }),
   });
 }
+
+export type WixClient = ReturnType<typeof getWixClient>;

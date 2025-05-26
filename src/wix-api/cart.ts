@@ -1,4 +1,4 @@
-import { getWixClient } from "@/lib/wix-client.base";
+import { WixClient } from "@/lib/wix-client.base";
 import { products } from "@wix/stores";
 import { findVariant } from "@/lib/utils";
 import { WIX_STORES_APP_ID } from "@/lib/constants";
@@ -11,8 +11,7 @@ type WixCartError = {
   };
 };
 
-export async function getCart() {
-  const wixClient = await getWixClient();
+export async function getCart(wixClient: WixClient) {
   try {
     return await wixClient.currentCart.getCurrentCart();
   } catch (error) {
@@ -31,13 +30,10 @@ type AddToCartValues = {
   quantity: number;
 };
 
-export async function addToCart({
-  product,
-  selectedOptions,
-  quantity,
-}: AddToCartValues) {
-  const wixClient = await getWixClient();
-
+export async function addToCart(
+  wixClient: WixClient,
+  { product, selectedOptions, quantity }: AddToCartValues,
+) {
   const selectedVariant = findVariant(product, selectedOptions);
 
   return wixClient.currentCart.addToCurrentCart({
