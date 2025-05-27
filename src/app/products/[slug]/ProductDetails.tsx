@@ -113,6 +113,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 product={product}
                 selectedOptions={selectedOptions}
                 quantity={quantity}
+                disabled={availableQuantityExceeds || quantity < 1}
+                className="w-full h-12"
               />
             ) : (
               <div className="text-rose-600 font-semibold py-2">

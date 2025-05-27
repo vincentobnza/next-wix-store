@@ -4,6 +4,8 @@ import { FontProvider } from "@/context/FontContext";
 import Navbar from "./Navbar";
 import { Outfit } from "next/font/google";
 import Footer from "./Footer";
+import ReactQueryProvider from "../ReactQueryProvider";
+import { Toaster } from "sonner";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -29,12 +31,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased ${outfit.className}`}>
-        <FontProvider>
-          <Navbar />
-          <main>{children}</main>
+        <ReactQueryProvider>
+          <FontProvider>
+            <Navbar />
+            <main>{children}</main>
 
-          <Footer />
-        </FontProvider>
+            <Footer />
+          </FontProvider>
+        </ReactQueryProvider>
+
+        <Toaster />
       </body>
     </html>
   );
