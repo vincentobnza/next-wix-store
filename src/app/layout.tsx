@@ -4,12 +4,10 @@ import { FontProvider } from "@/context/FontContext";
 import Navbar from "./Navbar";
 import { Outfit } from "next/font/google";
 import Footer from "./Footer";
-import ReactQueryProvider from "../ReactQueryProvider";
-import { Toaster } from "sonner";
+import ReactQueryProvider from "@/ReactQueryProvider";
 
 const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-montserrat",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
@@ -39,8 +37,6 @@ export default function RootLayout({
             <Footer />
           </FontProvider>
         </ReactQueryProvider>
-
-        <Toaster />
       </body>
     </html>
   );
