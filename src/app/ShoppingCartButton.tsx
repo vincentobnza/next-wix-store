@@ -116,8 +116,8 @@ type ShoppingCartItemProps = {
 
 function ShoppingCartItem({ item }: ShoppingCartItemProps) {
   const updateQuantityMutation = useUpdateCartItemQuantity();
-  const productId = item._id;
-  if (!productId) return null;
+  const lineItemId = item._id; 
+  if (!lineItemId) return null;
   const slug = item.url?.split("/").pop();
 
   const quantityLimitReached =
@@ -169,14 +169,14 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
             <Button
               onClick={() => {
                 updateQuantityMutation.mutate({
-                  productId,
+                  lineItemId, 
                   newQuantity: !item.quantity ? 0 : item.quantity - 1,
                 });
               }}
               variant="outline"
               size="icon"
               className="h-8 w-8"
-              disabled={item.quantity === 1}
+              disabled={item.quantity === 1 || updateQuantityMutation.isPending}
             >
               <Minus className="h-3 w-3" />
             </Button>
@@ -188,14 +188,16 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
             <Button
               onClick={() => {
                 updateQuantityMutation.mutate({
-                  productId,
+                  lineItemId, // Changed from productId to lineItemId
                   newQuantity: !item.quantity ? 1 : item.quantity + 1,
                 });
               }}
               variant="outline"
               size="icon"
               className="h-8 w-8"
-              disabled={quantityLimitReached}
+              disabled={
+                quantityLimitReached || updateQuantityMutation.isPending
+              }
             >
               <Plus className="h-3 w-3" />
             </Button>

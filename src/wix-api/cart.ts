@@ -1,3 +1,5 @@
+// cart.ts - Updated cart API functions
+
 import { WixClient } from "@/lib/wix-client.base";
 import { products } from "@wix/stores";
 import { findVariant } from "@/lib/utils";
@@ -55,25 +57,18 @@ export async function addToCart(
 }
 
 export type UpdateCartItemQuantityValues = {
-  productId: string;
+  lineItemId: string;
   newQuantity: number;
 };
 
 export async function updateCartItemQuantity(
   wixClient: WixClient,
-  { productId, newQuantity }: UpdateCartItemQuantityValues,
+  { lineItemId, newQuantity }: UpdateCartItemQuantityValues,
 ) {
-  return wixClient.currentCart.updateCurrentCart({
-    lineItems: [
-      {
-        _id: productId,
-        quantity: newQuantity,
-        catalogReference: {
-          appId: WIX_STORES_APP_ID,
-          catalogItemId: productId,
-          options: {},
-        },
-      },
-    ],
-  });
+  return wixClient.currentCart.updateCurrentCartLineItemQuantity([
+    {
+      _id: lineItemId,
+      quantity: newQuantity,
+    },
+  ]);
 }

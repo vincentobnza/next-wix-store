@@ -1,3 +1,5 @@
+// hooks/cart.ts - Updated React Query hooks
+
 import { wixClientBrowser } from "@/lib/wix-client-browser";
 import {
   addToCart,
@@ -23,9 +25,6 @@ export function useCart(initialData: currentCart.Cart | null) {
     queryKey: ["cart"],
     queryFn: () => getCart(wixClientBrowser),
     initialData,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-    refetchOnMount: false,
   });
 }
 
@@ -62,7 +61,7 @@ export function useUpdateCartItemQuantity() {
     mutationFn: (values: UpdateCartItemQuantityValues) =>
       updateCartItemQuantity(wixClientBrowser, values),
 
-    onMutate: async ({ productId, newQuantity }) => {
+    onMutate: async ({ lineItemId, newQuantity }) => {
       await queryClient.cancelQueries({
         queryKey,
       });
@@ -72,10 +71,11 @@ export function useUpdateCartItemQuantity() {
         if (!oldCart || !oldCart.lineItems) {
           return oldCart;
         }
+
         return {
           ...oldCart,
           lineItems: oldCart.lineItems.map((lineItem) =>
-            lineItem._id === productId
+            lineItem._id === lineItemId
               ? {
                   ...lineItem,
                   quantity: newQuantity,
@@ -87,10 +87,15 @@ export function useUpdateCartItemQuantity() {
 
       return { prevState };
     },
+
     onSuccess: (data) => {
-      queryClient.setQueryData(queryKey, data);
+      // The updateCurrentCartLineItemQuantity returns the updated cart
+      if (data && data.cart) {
+        queryClient.setQueryData(queryKey, data.cart);
+      }
       toast.success("Cart updated successfully");
     },
+
     onError: (error, variables, context) => {
       if (context?.prevState) {
         queryClient.setQueryData(queryKey, context.prevState);
@@ -103,9 +108,7 @@ export function useUpdateCartItemQuantity() {
       );
     },
     onSettled: () => {
-      if (queryClient.isMutating({ mutationKey }) === 1) {
-        queryClient.invalidateQueries({ queryKey });
-      }
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 }
