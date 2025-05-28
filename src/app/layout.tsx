@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { FontProvider } from "@/context/FontContext";
 import Navbar from "./Navbar";
-import { Outfit } from "next/font/google";
 import Footer from "./Footer";
-import ReactQueryProvider from "@/ReactQueryProvider";
+import ReactQueryProvider from "../ReactQueryProvider";
+import { Toaster } from "sonner";
+import { Outfit } from "next/font/google";
 
 const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -36,6 +37,8 @@ export default function RootLayout({
 
             <Footer />
           </FontProvider>
+
+          <Toaster />
         </ReactQueryProvider>
       </body>
     </html>

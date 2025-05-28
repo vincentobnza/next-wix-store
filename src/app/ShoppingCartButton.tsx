@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/hooks/cart";
+import { useCart, useUpdateCartItemQuantity } from "@/hooks/cart";
 import { currentCart } from "@wix/ecom";
 import { ShoppingCartIcon, Minus, Plus, X } from "lucide-react";
 import { useState } from "react";
@@ -10,10 +10,8 @@ import {
   SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import { WixImage } from "@/components/WixImage";
@@ -26,7 +24,7 @@ export default function ShoppingCartButton(
   initialData: ShoppingCartButtonProps,
 ) {
   const cartQuery = useCart(initialData);
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState<boolean | undefined>(false);
 
   const totalQuantity =
     cartQuery.data?.lineItems?.reduce(
@@ -95,10 +93,13 @@ export default function ShoppingCartButton(
                   {cartQuery.data?.subtotal?.formattedConvertedAmount}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-zinc-700">
                 Shipping and taxes calculated at checkout
               </p>
-              <Button className="w-full h-12 text-base font-semibold">
+              <Button
+                className="w-full h-12 text-base font-semibold"
+                disabled={!totalQuantity || cartQuery.isLoading}
+              >
                 Proceed to Checkout
               </Button>
             </div>
@@ -114,6 +115,9 @@ type ShoppingCartItemProps = {
 };
 
 function ShoppingCartItem({ item }: ShoppingCartItemProps) {
+  const updateQuantityMutation = useUpdateCartItemQuantity();
+  const productId = item._id;
+  if (!productId) return null;
   const slug = item.url?.split("/").pop();
 
   const quantityLimitReached =
@@ -122,50 +126,53 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
     item.quantity >= item.availability.quantityAvailable;
 
   return (
-    <div className="flex gap-4 p-4 border rounded-lg bg-card">
+    <div className="flex gap-4 p-4 border bg-card">
       <Link href={`/products/${slug}`} className="flex-shrink-0">
         <WixImage
           mediaIdentifier={item.image}
           width={80}
           height={80}
           alt={item.productName?.translated || "Product Image"}
-          className="rounded-md object-cover bg-muted"
+          className="object-cover bg-muted"
         />
       </Link>
 
-      <div className="flex-1 space-y-2">
-        <div className="space-y-1">
-          <Link href={`/products/${slug}`}>
-            <h4 className="font-medium text-sm line-clamp-2 hover:underline">
-              {item.productName?.translated || "Product Name"}
-            </h4>
-          </Link>
+      <div className="flex-1 space-y-4">
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <Link href={`/products/${slug}`}>
+              <h4 className="text-sm line-clamp-2 hover:underline text-zinc-800">
+                {item.productName?.translated || "Product Name"}
+              </h4>
+            </Link>
 
-          {item.descriptionLines && item.descriptionLines.length > 0 && (
-            <p className="text-xs text-muted-foreground">
-              {item.descriptionLines
-                ?.map(
-                  (line) =>
-                    line.colorInfo?.translated || line.plainText?.translated,
-                )
-                .filter(Boolean)
-                .join(", ")}
-            </p>
-          )}
-
-          <div className="flex items-center gap-2 font-medium text-sm">
-            {item.quantity} x {item.price?.formattedConvertedAmount || "$0.00"}
-            {item.fullPrice && item.fullPrice.amount !== item.price?.amount && (
-              <span className="text-xs text-muted-foreground line-through">
-                {item.fullPrice.formattedConvertedAmount}
-              </span>
+            {item.descriptionLines && item.descriptionLines.length > 0 && (
+              <p className="text-xs text-muted-foreground">
+                {item.descriptionLines
+                  ?.map(
+                    (line) =>
+                      line.colorInfo?.translated || line.plainText?.translated,
+                  )
+                  .filter(Boolean)
+                  .join(", ")}
+              </p>
             )}
+          </div>
+
+          <div className="flex items-center gap-2 text-zinc-900 text-sm md:text-[16px] font-semibold">
+            {item.price?.formattedConvertedAmount || "Price not available"}
           </div>
         </div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Button
+              onClick={() => {
+                updateQuantityMutation.mutate({
+                  productId,
+                  newQuantity: !item.quantity ? 0 : item.quantity - 1,
+                });
+              }}
               variant="outline"
               size="icon"
               className="h-8 w-8"
@@ -179,6 +186,12 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
             </span>
 
             <Button
+              onClick={() => {
+                updateQuantityMutation.mutate({
+                  productId,
+                  newQuantity: !item.quantity ? 1 : item.quantity + 1,
+                });
+              }}
               variant="outline"
               size="icon"
               className="h-8 w-8"

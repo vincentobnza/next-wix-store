@@ -66,7 +66,7 @@ async function FeaturedProducts() {
   }
   return (
     <div className="w-full">
-      <SubHeading>FEATURED PRODUCTS</SubHeading>
+      <SubHeading className="font-medium">Featured Products</SubHeading>
       <div className="mt-8 grid grid-cols-2 sm:grid gap-3 md:gap-5 md:grid-cols-3 lg:grid-cols-5">
         {featuredProducts.items.map((product) => (
           <Product key={product._id} product={product} />

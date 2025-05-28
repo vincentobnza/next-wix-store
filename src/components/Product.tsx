@@ -33,12 +33,14 @@ export default function Product({ product }: ProductProps) {
       </div>
       <div className="w-full flex items-center justify-between">
         <div className="space-y-1 py-5">
-          <Text className="text-sm group-hover:underline line-clamp-1 uppercase">
+          <Text className="text-sm group-hover:underline line-clamp-1 font-medium">
             {product.name}
           </Text>
-          <h3 className="text-sm md:text-xl font-bold">
-            {getFormattedPrice(product)}
-          </h3>
+          <div className="flex items-center gap-3">
+            <h3 className="text-sm md:text-xl font-bold">
+              {getFormattedPrice(product)}
+            </h3>
+          </div>
         </div>
       </div>
     </Link>
@@ -64,8 +66,8 @@ function AddToCart() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="absolute grid place-items-center bottom-2 left-1/2 transform -translate-x-1/2 rounded-full bg-white/20 z-10 size-8">
-            <Plus className="text-zinc-900 size-5" />
+          <div className="absolute grid place-items-center bottom-2 left-1/2 transform -translate-x-1/2 text-black duration-300 transition rounded-full bg-white/20 z-10 size-8 hover:scale-110">
+            <Plus className="size-5" />
           </div>
         </TooltipTrigger>
         <TooltipContent>

@@ -53,3 +53,27 @@ export async function addToCart(
     ],
   });
 }
+
+export type UpdateCartItemQuantityValues = {
+  productId: string;
+  newQuantity: number;
+};
+
+export async function updateCartItemQuantity(
+  wixClient: WixClient,
+  { productId, newQuantity }: UpdateCartItemQuantityValues,
+) {
+  return wixClient.currentCart.updateCurrentCart({
+    lineItems: [
+      {
+        _id: productId,
+        quantity: newQuantity,
+        catalogReference: {
+          appId: WIX_STORES_APP_ID,
+          catalogItemId: productId,
+          options: {},
+        },
+      },
+    ],
+  });
+}
