@@ -59,7 +59,7 @@ export default function ShoppingCartButton(
         )}
       </Button>
       <Sheet open={sheetOpen} onOpenChange={handleSheetOpenChange}>
-        <SheetContent className="flex flex-col w-full sm:max-w-lg">
+        <SheetContent className="flex flex-col w-full sm:max-w-md">
           <SheetHeader className="space-y-2 pb-4 border-b">
             <SheetTitle className="text-left">Your Shopping Cart</SheetTitle>
             <SheetDescription className="text-left">
@@ -85,8 +85,8 @@ export default function ShoppingCartButton(
                 <Image
                   src="/empty-cart.png"
                   alt="Empty Cart"
-                  width={80}
-                  height={80}
+                  width={100}
+                  height={100}
                   className="mb-4 grayscale"
                 />
                 <h3 className="text-md md:text-xl font-semibold mb-2">
@@ -96,7 +96,7 @@ export default function ShoppingCartButton(
                   Start shopping to add items to your cart
                 </p>
                 <SheetClose asChild>
-                  <Button variant="outline">Continue Shopping</Button>
+                  <Button variant="outline">Shop Now</Button>
                 </SheetClose>
               </div>
             )}
@@ -235,7 +235,7 @@ function ShoppingCartItem({ item, onProductLinkClick }: ShoppingCartItemProps) {
         onClick={() => removeItemMutation.mutate(lineItemId)}
         variant="ghost"
         size="icon"
-        className="h-8 w-8 flex-shrink-0 text-muted-foreground hover:text-destructive"
+        className="h-8 w-8 flex-shrink-0 text-muted-foreground"
       >
         <X className="h-4 w-4" />
       </Button>
