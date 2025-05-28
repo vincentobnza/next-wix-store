@@ -7,6 +7,7 @@ import {
   getCart,
   UpdateCartItemQuantityValues,
   updateCartItemQuantity,
+  removeCartItem,
 } from "@/wix-api/cart";
 import {
   useMutation,
@@ -92,7 +93,6 @@ export function useUpdateCartItemQuantity() {
       if (data && data.cart) {
         queryClient.setQueryData(queryKey, data.cart);
       }
-      toast.success("Cart updated successfully");
     },
 
     onError: (error, variables, context) => {
@@ -105,6 +105,57 @@ export function useUpdateCartItemQuantity() {
           ? error.message
           : "An error occurred while updating item quantity",
       );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
+}
+
+export function useRemoveCartItem() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (lineItemId: string) =>
+      removeCartItem(wixClientBrowser, lineItemId),
+    onMutate: async (lineItemId) => {
+      await queryClient.cancelQueries({ queryKey });
+
+      const prevState = queryClient.getQueryData<currentCart.Cart>(queryKey);
+
+      queryClient.setQueryData<currentCart.Cart>(queryKey, (oldCart) => {
+        if (!oldCart || !oldCart.lineItems) {
+          return oldCart;
+        }
+        return {
+          ...oldCart,
+          lineItems: oldCart.lineItems.filter(
+            (lineItem) => lineItem._id !== lineItemId,
+          ),
+        };
+      });
+
+      return { prevState };
+    },
+    onError: (error, lineItemId, context) => {
+      if (context?.prevState) {
+        queryClient.setQueryData(queryKey, context.prevState);
+      }
+      console.error("Error removing cart item:", error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "An error occurred while removing item from cart",
+      );
+    },
+
+    onSuccess: (data) => {
+      if (data && data.cart) {
+        queryClient.setQueryData(queryKey, data.cart);
+        toast.success("Item removed from cart");
+      } else {
+        toast.error("Failed to remove item from cart");
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });

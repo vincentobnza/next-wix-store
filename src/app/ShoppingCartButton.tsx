@@ -1,7 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useCart, useUpdateCartItemQuantity } from "@/hooks/cart";
+import {
+  useCart,
+  useRemoveCartItem,
+  useUpdateCartItemQuantity,
+} from "@/hooks/cart";
 import { currentCart } from "@wix/ecom";
 import { ShoppingCartIcon, Minus, Plus, X } from "lucide-react";
 import { useState } from "react";
@@ -15,6 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import { WixImage } from "@/components/WixImage";
+import Image from "next/image";
 
 type ShoppingCartButtonProps = {
   initialData: currentCart.Cart | null;
@@ -68,16 +73,26 @@ export default function ShoppingCartButton(
             {hasItems ? (
               <div className="space-y-4">
                 {cartQuery.data?.lineItems?.map((item) => (
-                  <ShoppingCartItem key={item._id} item={item} />
+                  <ShoppingCartItem
+                    key={item._id}
+                    item={item}
+                    onProductLinkClick={() => setSheetOpen(false)}
+                  />
                 ))}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                <ShoppingCartIcon className="h-16 w-16 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">
+                <Image
+                  src="/empty-cart.png"
+                  alt="Empty Cart"
+                  width={80}
+                  height={80}
+                  className="mb-4 grayscale"
+                />
+                <h3 className="text-md md:text-xl font-semibold mb-2">
                   Your cart is empty
                 </h3>
-                <p className="text-muted-foreground text-sm mb-6">
+                <p className="text-zinc-600 text-sm mb-6">
                   Start shopping to add items to your cart
                 </p>
                 <SheetClose asChild>
@@ -115,10 +130,13 @@ export default function ShoppingCartButton(
 
 type ShoppingCartItemProps = {
   item: currentCart.LineItem;
+  onProductLinkClick: () => void;
 };
 
-function ShoppingCartItem({ item }: ShoppingCartItemProps) {
+function ShoppingCartItem({ item, onProductLinkClick }: ShoppingCartItemProps) {
   const updateQuantityMutation = useUpdateCartItemQuantity();
+  const removeItemMutation = useRemoveCartItem();
+
   const lineItemId = item._id;
   if (!lineItemId) return null;
   const slug = item.url?.split("/").pop();
@@ -141,7 +159,11 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
 
   return (
     <div className="flex gap-4 p-4 border bg-card">
-      <Link href={`/products/${slug}`} className="flex-shrink-0">
+      <Link
+        href={`/products/${slug}`}
+        className="flex-shrink-0"
+        onClick={onProductLinkClick}
+      >
         <WixImage
           mediaIdentifier={item.image}
           width={80}
@@ -154,7 +176,7 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
       <div className="flex-1 space-y-4">
         <div className="space-y-3">
           <div className="space-y-1">
-            <Link href={`/products/${slug}`}>
+            <Link href={`/products/${slug}`} onClick={onProductLinkClick}>
               <h4 className="text-sm line-clamp-2 hover:underline text-zinc-800">
                 {item.productName?.translated || "Product Name"}
               </h4>
@@ -210,6 +232,7 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
       </div>
 
       <Button
+        onClick={() => removeItemMutation.mutate(lineItemId)}
         variant="ghost"
         size="icon"
         className="h-8 w-8 flex-shrink-0 text-muted-foreground hover:text-destructive"

@@ -33,11 +33,11 @@ export default function Product({ product }: ProductProps) {
       </div>
       <div className="w-full flex items-center justify-between">
         <div className="space-y-1 py-5">
-          <Text className="text-sm group-hover:underline line-clamp-1 font-medium">
+          <Text className="text-xs group-hover:underline line-clamp-1 font-medium">
             {product.name}
           </Text>
           <div className="flex items-center gap-3">
-            <h3 className="text-sm md:text-xl font-bold">
+            <h3 className="text-sm md:text-lg font-bold">
               {getFormattedPrice(product)}
             </h3>
           </div>
