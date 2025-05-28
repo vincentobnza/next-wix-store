@@ -29,6 +29,7 @@ export default function AddToCartButton({
   };
   return (
     <LoadingButton
+      variant={"outline"}
       className={cn("flex items-center gap-2 ", className)}
       isLoading={mutation.isPending}
       onClick={handleAddToCart}

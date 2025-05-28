@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import AddToCartButton from "@/components/AddtoCartButton";
+import { Button } from "@/components/ui/button";
 
 type ProductDetailsProps = {
   product: products.Product;
@@ -82,7 +83,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             setSelectedOptions={setSelectedOptions}
           />
 
-          <div className="space-y-2">
+          <div className="space-y-4">
             <Label htmlFor="quantity" className="text-sm">
               Quantity
             </Label>
@@ -108,19 +109,23 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 )}
             </div>
 
-            {inStock ? (
-              <AddToCartButton
-                product={product}
-                selectedOptions={selectedOptions}
-                quantity={quantity}
-                disabled={availableQuantityExceeds || quantity < 1}
-                className="w-full h-12"
-              />
-            ) : (
-              <div className="text-rose-600 font-semibold py-2">
-                Out of Stock
-              </div>
-            )}
+            <div className="w-full flex items-center gap-3">
+              {inStock ? (
+                <AddToCartButton
+                  product={product}
+                  selectedOptions={selectedOptions}
+                  quantity={quantity}
+                  disabled={availableQuantityExceeds || quantity < 1}
+                  className="w-full h-12"
+                />
+              ) : (
+                <div className="text-rose-600 font-semibold py-2">
+                  Out of Stock
+                </div>
+              )}
+
+              <Button className="w-full h-12">Buy Now</Button>
+            </div>
           </div>
 
           {!!product.additionalInfoSections?.length && (

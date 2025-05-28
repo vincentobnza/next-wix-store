@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto w-full max-w-screen-xl space-y-12 px-5 py-10">
+    <main className="mx-auto w-full max-w-screen-lg space-y-12 px-5 py-10">
       <ProductDetails product={product} />
     </main>
   );

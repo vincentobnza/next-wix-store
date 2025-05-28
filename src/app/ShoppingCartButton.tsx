@@ -24,7 +24,7 @@ export default function ShoppingCartButton(
   initialData: ShoppingCartButtonProps,
 ) {
   const cartQuery = useCart(initialData);
-  const [sheetOpen, setSheetOpen] = useState<boolean | undefined>(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const totalQuantity =
     cartQuery.data?.lineItems?.reduce(

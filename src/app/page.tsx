@@ -12,7 +12,7 @@ import { getWixServerClient } from "@/lib/wix-client-server";
 
 export default function Home() {
   return (
-    <main className="mx-auto w-full max-w-screen-xl space-y-12 px-5 py-10">
+    <main className="mx-auto w-full max-w-screen-lg space-y-12 px-5 py-10">
       <div className="flex items-center md:h-96 bg-zinc-50">
         <div className="flex flex-col gap-5 p-10 text-center md:text-left md:w-1/2">
           <Heading>Your Everyday Style, Reinvented</Heading>
