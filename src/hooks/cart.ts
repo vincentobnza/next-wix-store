@@ -89,7 +89,6 @@ export function useUpdateCartItemQuantity() {
     },
 
     onSuccess: (data) => {
-      // The updateCurrentCartLineItemQuantity returns the updated cart
       if (data && data.cart) {
         queryClient.setQueryData(queryKey, data.cart);
       }
