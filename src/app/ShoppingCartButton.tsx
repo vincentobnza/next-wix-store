@@ -34,6 +34,10 @@ export default function ShoppingCartButton(
 
   const hasItems = totalQuantity > 0;
 
+  const handleSheetOpenChange = (open: boolean) => {
+    setSheetOpen(open);
+  };
+
   return (
     <div className="relative">
       <Button
@@ -49,8 +53,7 @@ export default function ShoppingCartButton(
           </span>
         )}
       </Button>
-
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+      <Sheet open={sheetOpen} onOpenChange={handleSheetOpenChange}>
         <SheetContent className="flex flex-col w-full sm:max-w-lg">
           <SheetHeader className="space-y-2 pb-4 border-b">
             <SheetTitle className="text-left">Your Shopping Cart</SheetTitle>
@@ -116,7 +119,7 @@ type ShoppingCartItemProps = {
 
 function ShoppingCartItem({ item }: ShoppingCartItemProps) {
   const updateQuantityMutation = useUpdateCartItemQuantity();
-  const lineItemId = item._id; 
+  const lineItemId = item._id;
   if (!lineItemId) return null;
   const slug = item.url?.split("/").pop();
 
@@ -124,6 +127,17 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
     !!item.quantity &&
     !!item.availability?.quantityAvailable &&
     item.quantity >= item.availability.quantityAvailable;
+
+  const handleQuantityUpdate = (newQuantity: number) => {
+    try {
+      updateQuantityMutation.mutate({
+        lineItemId,
+        newQuantity,
+      });
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+    }
+  };
 
   return (
     <div className="flex gap-4 p-4 border bg-card">
@@ -167,12 +181,7 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Button
-              onClick={() => {
-                updateQuantityMutation.mutate({
-                  lineItemId, 
-                  newQuantity: !item.quantity ? 0 : item.quantity - 1,
-                });
-              }}
+              onClick={() => handleQuantityUpdate((item.quantity || 1) - 1)}
               variant="outline"
               size="icon"
               className="h-8 w-8"
@@ -186,12 +195,7 @@ function ShoppingCartItem({ item }: ShoppingCartItemProps) {
             </span>
 
             <Button
-              onClick={() => {
-                updateQuantityMutation.mutate({
-                  lineItemId, // Changed from productId to lineItemId
-                  newQuantity: !item.quantity ? 1 : item.quantity + 1,
-                });
-              }}
+              onClick={() => handleQuantityUpdate((item.quantity || 0) + 1)}
               variant="outline"
               size="icon"
               className="h-8 w-8"
